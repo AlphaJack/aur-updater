@@ -10,11 +10,11 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: Build and commit, but do not push to the AUR
+        description: Dry run, do not push to the AUR
         type: boolean
         default: true
       max_updates:
-        description: Max packages to update, overrides the MAX_UPDATES variable (empty means no limit)
+        description: Max packages to update (empty uses the MAX_UPDATES repository variable, defaulting to limit)
         type: string
         default: ""
 
