@@ -274,6 +274,8 @@ github = "BerriAI/litellm"
 use_max_tag = true
 exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
 prefix = "v"
+# AUR dep python-tokenizers takes too long to build
+build = false
 
 [maldet]
 source = "github"
@@ -653,6 +655,8 @@ source = "pypi"
 pypi = "TPOT2"
 # only alpha releases so far
 use_pre_release = true
+# AUR deps lightgbm, xgboost and optuna take too long to build
+build = false
 
 [python-wtforms-json]
 source = "pypi"
@@ -702,7 +706,6 @@ prefix = "v"
 [shot-scraper]
 source = "pypi"
 pypi = "shot_scraper"
-build = true
 
 [smarty3]
 source = "github"
@@ -798,6 +801,8 @@ pypi = "aider-chat"
 # version also pinned in package(), see overrides/coqui-tts.sh
 source = "pypi"
 pypi = "coqui-tts"
+# AUR deps python-torchaudio and python-transformers take too long to build
+build = false
 
 [dbt-fusion-bin]
 # tags like v2.0.0-beta.12, pkgver 2.0.0.beta.12, see overrides/dbt-fusion-bin.sh

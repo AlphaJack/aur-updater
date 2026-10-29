@@ -85,6 +85,8 @@ jobs:
     if: needs.check.outputs.outdated != '[]'
     runs-on: ubuntu-latest
     container: archlinux:base-devel # zizmor: ignore[unpinned-images] rolling release, rebuilt upstream regularly
+    # a stuck build would otherwise run for 6 hours
+    timeout-minutes: 60
     permissions:
       contents: read
     strategy:

@@ -57,14 +57,14 @@ def nvchecker_args() -> list[str]:
 
 
 def outdated() -> list[dict]:
-    """Run nvchecker and return the packages newer upstream, with their `build` key."""
+    """Run nvchecker and return the packages newer upstream, with their `build` key (default true)."""
     subprocess.run(["nvchecker", "-c", CONFIG, *nvchecker_args(), "--tries", "3"],
                    check=True, stdout=sys.stderr)
     result = subprocess.run(["nvcmp", "-c", CONFIG, "-j", "-n"],
                             check=True, capture_output=True, text=True)
     # nvchecker ignores the per-package `build` key
     config = tomllib.loads(CONFIG.read_text())
-    return [{**p, "build": config[p["name"]].get("build", False)} for p in json.loads(result.stdout)]
+    return [{**p, "build": config[p["name"]].get("build", True)} for p in json.loads(result.stdout)]
 
 
 def only(packages: list[dict], names: str) -> list[dict]:

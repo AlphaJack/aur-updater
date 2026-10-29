@@ -24,8 +24,8 @@ Run `./update_catalog.py` to append sections for newly adopted packages, then re
    github = "owner/foo"
    use_latest_release = true
    prefix = "v"
-   # compile on each update instead of just downloading and verifying sources
-   # build = true
+   # only download and verify sources instead of building, e.g. for slow builds
+   # build = false
    ```
    Packages that can't be tracked stay commented out as `# [foo]` with a `# manual:` reason, so `update_catalog.py` leaves them alone.
 2. Check that the reported version matches the PKGBUILD `pkgver`:
