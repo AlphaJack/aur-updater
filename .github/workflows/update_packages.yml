@@ -82,7 +82,7 @@ jobs:
           echo "outdated=${outdated}" >> "$GITHUB_OUTPUT"
 
   update:
-    name: ${{ matrix.delta == 'rebuild' && format('{0} {1} (rebuild)', matrix.name, matrix.newver) || format('{0} {1} -> {2}', matrix.name, matrix.oldver, matrix.newver) }}
+    name: ${{ matrix.delta == 'python' && format('{0} {1} (rebuild for Python {2})', matrix.name, matrix.newver, matrix.python) || matrix.delta == 'rebuild' && format('{0} {1} (rebuild)', matrix.name, matrix.newver) || format('{0} {1} -> {2}', matrix.name, matrix.oldver, matrix.newver) }}
     needs: check
     if: needs.check.outputs.outdated != '[]'
     runs-on: ubuntu-latest
@@ -100,6 +100,8 @@ jobs:
     env:
       PKG: ${{ matrix.name }}
       NEWVER: ${{ matrix.newver }}
+      # set for rebuilds after a Python minor version update
+      PYTHON: ${{ matrix.python }}
       # compiler cache for Rust, and C/C++ built with CMake; passed to the build user by sudo
       RUSTC_WRAPPER: sccache
       CMAKE_C_COMPILER_LAUNCHER: sccache
@@ -141,7 +143,7 @@ jobs:
           sudo -u builder git config --global user.email "${OWNER_ID}+${OWNER}@users.noreply.github.com"
 
       - name: Bump version, update checksums and .SRCINFO
-        run: sudo -u builder ./update_packages.sh prepare "$PKG" "$NEWVER"
+        run: sudo -u builder --preserve-env=PYTHON ./update_packages.sh prepare "$PKG" "$NEWVER"
 
       - name: Install package dependencies
         if: matrix.build
@@ -171,7 +173,7 @@ jobs:
           key: build-${{ matrix.name }}-${{ github.run_id }}
 
       - name: Commit
-        run: sudo -u builder ./update_packages.sh commit "$PKG" "$NEWVER"
+        run: sudo -u builder --preserve-env=PYTHON ./update_packages.sh commit "$PKG" "$NEWVER"
 
       # the SSH key only exists after upstream code has finished running
       - name: Push to AUR

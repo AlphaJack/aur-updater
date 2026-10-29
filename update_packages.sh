@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # One subcommand per workflow step, working in build/PKG:
 #   ./update_packages.sh prepare PKG NEWVER   clone PKG from the AUR, bump to NEWVER, update checksums and .SRCINFO
+#                                             with PYTHON set (e.g. 3.15), increase pkgrel to rebuild for that Python
 #   ./update_packages.sh deps PKG             install repo and AUR dependencies (via yay) listed in .SRCINFO
 #   ./update_packages.sh verify PKG           download and verify sources
 #   ./update_packages.sh build PKG            build the package
@@ -21,9 +22,13 @@ prepare() {
   git clone "https://aur.archlinux.org/$pkg.git" "$dir"
   cd "$dir"
 
-  # only a new version resets pkgrel, a rebuild of the same version keeps it
+  # a new version resets pkgrel, a rebuild for a new Python increases it, other rebuilds keep it
   if [[ $(grep -oP '^pkgver=\K.*' PKGBUILD) != "$newver" ]]; then
     sed -i "s/^pkgver=.*/pkgver=$newver/; s/^pkgrel=.*/pkgrel=1/" PKGBUILD
+  elif [[ -n ${PYTHON:-} ]]; then
+    local pkgrel
+    pkgrel=$(grep -oP '^pkgrel=\K[0-9]+' PKGBUILD)
+    sed -i "s/^pkgrel=.*/pkgrel=$((pkgrel + 1))/" PKGBUILD
   fi
   if [[ -f $root/overrides/$pkg.sh ]]; then
     # shellcheck source=/dev/null
@@ -97,7 +102,11 @@ commit() {
     echo "$1: nothing to update"
     return
   fi
-  git commit -m "Update to $2"
+  if [[ -n ${PYTHON:-} ]]; then
+    git commit -m "Rebuild for Python $PYTHON"
+  else
+    git commit -m "Update to $2"
+  fi
   git --no-pager show HEAD -- PKGBUILD
 }
 
