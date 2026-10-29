@@ -31,7 +31,10 @@ prepare() {
   fi
 
   # an override can set skip_updpkgsums=1, e.g. for sources that change every day
-  [[ -n ${skip_updpkgsums:-} ]] || updpkgsums
+  # packages without sources (e.g. venvs installing from PyPI in package()) have nothing to update
+  if [[ -z ${skip_updpkgsums:-} ]] && makepkg --printsrcinfo | grep -q '^[[:space:]]source'; then
+    updpkgsums
+  fi
   makepkg --printsrcinfo > .SRCINFO
 }
 
