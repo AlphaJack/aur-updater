@@ -36,6 +36,11 @@ case ${1:-} in
     echo "AUR SSH login works"
     ;;
   push)
+    # nothing was committed (e.g. a rebuild without changes), the AUR may already be ahead
+    if [[ -z $(git -C "$root/build/$2" rev-list origin/HEAD..HEAD) ]]; then
+      echo "$2: nothing to push"
+      exit 0
+    fi
     GIT_SSH_COMMAND="${ssh_cmd[*]}" git -C "$root/build/$2" push "ssh://aur@aur.archlinux.org/$2.git" HEAD:master
     ;;
   *) sed -n '2,4p' "$0"; exit 1 ;;
