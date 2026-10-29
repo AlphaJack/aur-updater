@@ -150,9 +150,15 @@ jobs:
         if: matrix.build
         run: sudo -u builder CARGO_HOME="$GITHUB_WORKSPACE/.cargo" ./update_packages.sh build "$PKG"
 
+      # hashFiles() failed to hash the workspace after some builds, check the directory directly
+      - name: Check build cache
+        id: cache
+        if: always() && matrix.build
+        run: if [ -n "$(ls -A .cargo/registry 2>/dev/null)" ]; then echo "save=true" >> "$GITHUB_OUTPUT"; fi
+
       # also after failed or cancelled builds, downloaded crates are reused by the next attempt
       - name: Save build cache
-        if: always() && matrix.build && hashFiles('.cargo/registry/**') != ''
+        if: always() && steps.cache.outputs.save == 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .cargo
