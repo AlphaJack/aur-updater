@@ -27,8 +27,9 @@ case ${1:-} in
   test)
     # ssh exits 255 on its own errors (host key, authentication), otherwise with the remote command status
     rc=0
-    "${ssh_cmd[@]}" aur@aur.archlinux.org help > /dev/null || rc=$?
+    out=$("${ssh_cmd[@]}" aur@aur.archlinux.org help 2>&1) || rc=$?
     if ((rc == 255)); then
+      echo "$out" >&2
       echo "::error::Can't log in to the AUR with AUR_SSH_PRIVATE_KEY" >&2
       exit 1
     fi
