@@ -1,0 +1,5 @@
+/build/
+/keyfile.toml
+/new_ver.json
+/old_ver.json
+/__pycache__/

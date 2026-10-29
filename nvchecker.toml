@@ -1,0 +1,952 @@
+# One section per AUR package, named exactly like the package.
+# Docs: https://nvchecker.readthedocs.io/en/latest/usage.html
+# Test a single entry: nvchecker -c nvchecker.toml -e <pkgname>
+
+[__config__]
+oldver = "old_ver.json"
+newver = "new_ver.json"
+
+# GitHub releases
+
+[gitmal-bin]
+source = "github"
+github = "antonmedv/gitmal"
+use_latest_release = true
+prefix = "v"
+
+[rusticlone-bin]
+source = "github"
+github = "AlphaJack/rusticlone"
+use_latest_release = true
+prefix = "v"
+
+[scrutiny-bin]
+source = "github"
+github = "AnalogJ/scrutiny"
+use_latest_release = true
+prefix = "v"
+
+[shlink]
+source = "github"
+github = "shlinkio/shlink"
+use_latest_release = true
+prefix = "v"
+
+[stripe-cli-bin]
+source = "github"
+github = "stripe/stripe-cli"
+use_latest_release = true
+prefix = "v"
+
+[wstunnel-bin]
+source = "github"
+github = "erebe/wstunnel"
+use_latest_release = true
+prefix = "v"
+
+# metabase also tags enterprise builds as v1.x
+[metabase]
+source = "github"
+github = "metabase/metabase"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+include_regex = '^v0\.\d+\.\d+$'
+prefix = "v"
+
+# release asset name embeds a commit hash, see overrides/cyberchef-web.sh
+[cyberchef-web]
+source = "github"
+github = "gchq/CyberChef"
+use_latest_release = true
+prefix = "v"
+
+# PyPI
+
+[harlequin]
+source = "pypi"
+pypi = "harlequin"
+
+[python-holidays]
+source = "pypi"
+pypi = "holidays"
+
+[toc]
+source = "pypi"
+pypi = "tableofcontents"
+
+# Scraped
+
+[veracrypt-console-bin]
+source = "regex"
+url = "https://launchpad.net/veracrypt/trunk/"
+regex = 'veracrypt-console-([\d.]+)-Debian-11-amd64\.deb'
+
+[aide]
+source = "github"
+github = "aide/aide"
+use_latest_release = true
+prefix = "v"
+
+[audiosource]
+source = "github"
+github = "gdzx/audiosource"
+use_latest_release = true
+prefix = "v"
+
+[certbot-dns-porkbun]
+source = "github"
+github = "infinityofspace/certbot_dns_porkbun"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[collada2gltf-bin]
+source = "github"
+github = "KhronosGroup/COLLADA2GLTF"
+use_latest_release = true
+prefix = "v"
+
+[conduit]
+source = "gitlab"
+gitlab = "famedly/conduit"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[dendrite]
+source = "github"
+github = "element-hq/dendrite"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[edu-sync-bin]
+source = "github"
+github = "mkroening/edu-sync"
+use_latest_release = true
+prefix = "v"
+
+[espeak-phonemizer]
+source = "pypi"
+pypi = "espeak-phonemizer"
+
+[ethaddrgen-bin]
+source = "github"
+github = "Limeth/ethaddrgen"
+use_latest_release = true
+prefix = "v"
+
+[exfat-resize]
+source = "github"
+github = "huven/exfat-resize"
+use_latest_release = true
+prefix = "v"
+
+[fawltydeps]
+source = "pypi"
+pypi = "fawltydeps"
+
+[fusiondirectory]
+source = "github"
+github = "fusiondirectory/fusiondirectory"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "fusiondirectory-"
+
+[fusiondirectory-plugins]
+source = "github"
+github = "fusiondirectory/fusiondirectory-plugins"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "fusiondirectory-"
+
+[gcs-bin]
+source = "github"
+github = "richardwilkes/gcs"
+use_latest_release = true
+prefix = "v"
+
+[git-remote-rclone]
+source = "github"
+github = "datalad/git-remote-rclone"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[gizmosql-bin]
+source = "github"
+github = "gizmodata/gizmosql"
+use_latest_release = true
+prefix = "v"
+
+[greenpass]
+source = "github"
+github = "berdav/greenpass"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[handy-bin]
+source = "github"
+github = "cjpais/Handy"
+use_latest_release = true
+prefix = "v"
+
+[harlequin-mysql]
+source = "pypi"
+pypi = "harlequin_mysql"
+
+[harlequin-odbc]
+source = "pypi"
+pypi = "harlequin_odbc"
+
+[harlequin-postgres]
+source = "pypi"
+pypi = "harlequin_postgres"
+
+[horcrux-bin]
+source = "github"
+github = "jesseduffield/horcrux"
+use_latest_release = true
+prefix = "v"
+
+[hulk-rs]
+source = "github"
+github = "Hexalyse/hulk-rs"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[hyenae-ng]
+source = "github"
+github = "r-richter/hyenae-ng"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[ices0]
+source = "github"
+github = "Moonbase59/ices0"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[invoiceninja]
+source = "github"
+github = "invoiceninja/invoiceninja"
+use_latest_release = true
+prefix = "v"
+
+[jailer]
+source = "github"
+github = "Wisser/Jailer"
+use_latest_release = true
+prefix = "v"
+
+[keeweb-web]
+source = "github"
+github = "keeweb/keeweb"
+use_latest_release = true
+prefix = "v"
+
+[ldap-user-manager]
+source = "github"
+github = "wheelybird/ldap-user-manager"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[legit]
+source = "github"
+github = "icyphox/legit"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[librespeed-go]
+source = "github"
+github = "librespeed/speedtest-go"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[litellm]
+source = "github"
+github = "BerriAI/litellm"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[maldet]
+source = "github"
+github = "rfxn/linux-malware-detect"
+use_latest_release = true
+prefix = "v"
+
+[mercurio-bin]
+source = "github"
+github = "AlphaJack/mercurio"
+use_latest_release = true
+prefix = "v"
+
+[metabase-driver-clickhouse]
+source = "github"
+github = "ClickHouse/metabase-clickhouse-driver"
+use_latest_release = true
+
+[metabase-driver-csv]
+source = "github"
+github = "Markenson/csv-metabase-driver"
+use_latest_release = true
+prefix = "v"
+
+[metabase-driver-dremio]
+source = "github"
+github = "Baoqi/metabase-dremio-driver"
+use_latest_release = true
+
+[metabase-driver-duckdb]
+source = "github"
+github = "motherduckdb/metabase_duckdb_driver"
+use_latest_release = true
+
+[metabase-driver-starburst]
+source = "github"
+github = "starburstdata/metabase-driver"
+use_latest_release = true
+
+[mimic]
+source = "github"
+github = "MycroftAI/mimic3"
+use_latest_release = true
+prefix = "release/v"
+
+[mimic-bin]
+source = "github"
+github = "MycroftAI/mimic3"
+use_latest_release = true
+prefix = "release/v"
+
+[mkdocs-backlinks-plugin]
+source = "pypi"
+pypi = "mkdocs-backlinks"
+
+[mkdocs-charts-plugin]
+source = "pypi"
+pypi = "mkdocs-charts-plugin"
+
+[mkdocs-cinder]
+source = "github"
+github = "chrissimpkins/cinder"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[mkdocs-exclude-search-plugin]
+source = "github"
+github = "chrieke/mkdocs-exclude-search"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[mkdocs-ezlinks-plugin]
+source = "github"
+github = "orbikm/mkdocs-ezlinks-plugin"
+use_latest_release = true
+prefix = "v_"
+
+[mkdocs-git-authors-plugin]
+source = "github"
+github = "timvink/mkdocs-git-authors-plugin"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[mkdocs-git-revision-date-localized-plugin]
+source = "github"
+github = "timvink/mkdocs-git-revision-date-localized-plugin"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[mkdocs-htmlproofer-plugin]
+source = "github"
+github = "manuzhang/mkdocs-htmlproofer-plugin"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[mkdocs-macros-plugin]
+source = "pypi"
+pypi = "mkdocs-macros-plugin"
+
+[mkdocs-material-extensions]
+source = "github"
+github = "facelessuser/mkdocs-material-extensions"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[mkdocs-material-pymdownx-extras]
+source = "github"
+github = "facelessuser/mkdocs_pymdownx_material_extras"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[mkdocs-mermaid2-plugin]
+source = "pypi"
+pypi = "mkdocs-mermaid2-plugin"
+
+[mkdocs-minify-plugin]
+source = "github"
+github = "byrnereese/mkdocs-minify-plugin"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[mkdocs-redirects]
+source = "pypi"
+pypi = "mkdocs-redirects"
+
+[mkdocs-static-i18n-plugin]
+source = "github"
+github = "ultrabug/mkdocs-static-i18n"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[mkdocs-with-pdf]
+source = "github"
+github = "orzih/mkdocs-with-pdf"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[modsecurity-crs]
+source = "github"
+github = "coreruleset/coreruleset"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[n-link]
+source = "github"
+github = "lights0123/n-link"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[network-monitor-bin]
+source = "github"
+github = "grigio/network-monitor"
+use_latest_release = true
+prefix = "v"
+
+[ofxstatement]
+source = "pypi"
+pypi = "ofxstatement"
+
+[olivetin-bin]
+source = "github"
+github = "OliveTin/OliveTin"
+use_latest_release = true
+
+[openstamanager]
+source = "github"
+github = "devcode-it/openstamanager"
+use_latest_release = true
+prefix = "v"
+
+[ossec-hids-agent]
+source = "github"
+github = "ossec/ossec-hids"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[ossec-hids-local]
+source = "github"
+github = "ossec/ossec-hids"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[ossec-hids-server]
+source = "github"
+github = "ossec/ossec-hids"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[paperless-ngx-venv]
+source = "github"
+github = "paperless-ngx/paperless-ngx"
+use_latest_release = true
+prefix = "v"
+
+[perl-sys-mmap]
+source = "cpan"
+cpan = "Sys-Mmap"
+
+[pev2-web]
+source = "github"
+github = "dalibo/pev2"
+use_latest_release = true
+prefix = "v"
+
+[pterodactyl-panel]
+source = "github"
+github = "pterodactyl/panel"
+use_latest_release = true
+prefix = "v"
+
+[pterodactyl-wings]
+source = "github"
+github = "pterodactyl/wings"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[pterodactyl-wings-bin]
+source = "github"
+github = "pterodactyl/wings"
+use_latest_release = true
+prefix = "v"
+
+[puncia]
+source = "pypi"
+pypi = "puncia"
+
+[python-apscheduler]
+source = "pypi"
+pypi = "apscheduler"
+
+[python-auto-sklearn]
+source = "pypi"
+pypi = "auto-sklearn"
+
+[python-baikal]
+source = "pypi"
+pypi = "baikal"
+
+[python-code2flow]
+source = "pypi"
+pypi = "code2flow"
+
+[python-configspace]
+source = "pypi"
+pypi = "ConfigSpace"
+
+[python-degiro-connector]
+source = "pypi"
+pypi = "degiro_connector"
+
+[python-django-easy-thumbnails]
+source = "github"
+github = "SmileyChris/easy-thumbnails"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[python-django-sortedm2m]
+source = "github"
+github = "jazzband/django-sortedm2m"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[python-flask-appbuilder]
+source = "pypi"
+pypi = "Flask-AppBuilder"
+
+[python-flask-openid]
+source = "pypi"
+pypi = "Flask-OpenID"
+
+[python-flask-session]
+source = "pypi"
+pypi = "flask-session"
+
+[python-grep-ast]
+source = "pypi"
+pypi = "grep_ast"
+
+[python-hashids]
+source = "pypi"
+pypi = "hashids"
+
+[python-hijri-converter]
+source = "pypi"
+pypi = "hijri-converter"
+
+[python-onetimepass]
+source = "github"
+github = "tadeck/onetimepass"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[python-peewee-migrate]
+source = "github"
+github = "klen/peewee_migrate"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[python-petl]
+source = "pypi"
+pypi = "petl"
+
+[python-pgsanity]
+source = "pypi"
+pypi = "pgsanity"
+
+[python-polyline]
+source = "pypi"
+pypi = "polyline"
+
+[python-pynisher]
+source = "pypi"
+pypi = "pynisher"
+
+[python-pyrfr]
+source = "pypi"
+pypi = "pyrfr"
+
+[python-pyscaffold]
+source = "github"
+github = "pyscaffold/pyscaffold"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[python-rtf_tokenize]
+source = "github"
+github = "openstenoproject/rtf_tokenize"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[python-shandy-sqlfmt]
+source = "pypi"
+pypi = "shandy-sqlfmt"
+
+[python-shillelagh]
+source = "pypi"
+pypi = "shillelagh"
+
+[python-shortid]
+source = "pypi"
+pypi = "shortid"
+
+[python-smac]
+source = "pypi"
+pypi = "smac"
+
+[python-swagger-ui-py]
+source = "github"
+github = "PWZER/swagger-ui-py"
+use_latest_release = true
+prefix = "v"
+
+[python-tatsu]
+source = "pypi"
+pypi = "tatsu"
+
+[python-textual-fastdatatable]
+source = "pypi"
+pypi = "textual-fastdatatable"
+
+[python-textual-textarea]
+source = "pypi"
+pypi = "textual-textarea"
+
+[python-tpot2]
+source = "pypi"
+pypi = "TPOT2"
+# only alpha releases so far
+use_pre_release = true
+
+[python-wtforms-json]
+source = "pypi"
+pypi = "WTForms-JSON"
+
+[qualcoder-bin]
+source = "github"
+github = "ccbogel/QualCoder"
+use_latest_release = true
+
+[quiqr-bin]
+source = "github"
+github = "quiqr/quiqr-desktop"
+use_latest_release = true
+prefix = "v"
+
+[r-quick-share-bin]
+source = "github"
+github = "Martichou/rquickshare"
+use_latest_release = true
+prefix = "v"
+
+[rmd-bin]
+source = "github"
+github = "shadowmoose/RedditDownloader"
+use_latest_release = true
+
+[roundcubemail-plugin-caldavzap]
+source = "github"
+github = "Offerel/roundcube_caldavzap"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[roundcubemail-plugin-carddav]
+source = "github"
+github = "mstilkerich/rcmcarddav"
+use_latest_release = true
+prefix = "v"
+
+[shaarli-material]
+source = "github"
+github = "kalvn/Shaarli-Material"
+use_latest_release = true
+prefix = "v"
+
+[shot-scraper]
+source = "pypi"
+pypi = "shot_scraper"
+
+[smarty3]
+source = "github"
+github = "smarty-php/smarty"
+include_regex = 'v3\..*'
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[smarty3-gettext]
+source = "github"
+github = "smarty-gettext/smarty-gettext"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[snowball-appimage]
+source = "github"
+github = "shaunabanana/snowball"
+use_latest_release = true
+prefix = "v"
+
+[sqlite-web]
+source = "github"
+github = "coleifer/sqlite-web"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[teams-for-linux-bin]
+source = "github"
+github = "IsmaelMartinez/teams-for-linux"
+use_latest_release = true
+prefix = "v"
+
+[teler]
+source = "github"
+github = "kitabisa/teler"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[ttf-miracode]
+source = "github"
+github = "IdreesInc/Miracode"
+use_latest_release = true
+prefix = "v"
+
+[webtrees]
+source = "github"
+github = "fisharebest/webtrees"
+use_latest_release = true
+
+[webtrees-theme-justlight]
+source = "github"
+github = "JustCarmen/webtrees-theme-justlight"
+use_latest_release = true
+
+[workout-tracker-bin]
+source = "github"
+github = "jovandeginste/workout-tracker"
+use_latest_release = true
+prefix = "v"
+
+[xdpdropper]
+source = "github"
+github = "renanqts/xdpdropper"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[yolobox-bin]
+source = "github"
+github = "finbarr/yolobox"
+use_latest_release = true
+prefix = "v"
+
+[yourls-sleeky]
+source = "github"
+github = "Flynntes/Sleeky"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[aider-chat-venv]
+source = "pypi"
+pypi = "aider-chat"
+
+# manual: pkgver is the major version, source is a daily zip
+# [ancestris]
+
+# manual: archived fork, no new releases
+# [citra-appimage]
+
+[coqui-tts]
+# version also pinned in package(), see overrides/coqui-tts.sh
+source = "pypi"
+pypi = "coqui-tts"
+
+[dbt-fusion-bin]
+# tags like v2.0.0-beta.12, pkgver 2.0.0.beta.12, see overrides/dbt-fusion-bin.sh
+source = "regex"
+url = "https://public.cdn.getdbt.com/fs/latest.json"
+regex = '"tag": "v([^"]+)"'
+from_pattern = '-'
+to_pattern = '.'
+
+[dkimpy-milter]
+# source is a Debian tarball with a Debian revision, may need manual edits
+source = "pypi"
+pypi = "dkimpy-milter"
+
+# manual: gist, no versions
+# [en_se]
+
+# manual: Apple source requires manual download
+# [libcorecrypto]
+
+[metabase-driver-teradata]
+source = "github"
+github = "swisscom-bigdata/metabase-teradata-driver"
+use_latest_release = true
+from_pattern = '^([\d.]+)-.*'
+to_pattern = '\1'
+
+# manual: voice data, no upstream versions
+# [mimic-voices]
+
+[mkinitcpio-zerotier]
+source = "gitlab"
+host = "gitlab.archlinux.org"
+gitlab = "alphajack/mkinitcpio-zerotier"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+# manual: rules require login to download
+# [modsecurity-comodo]
+
+# manual: PKGBUILD computes pkgver itself
+# [ntopng-data]
+
+[odoo-venv]
+# latest major only, the nightly date is set by overrides/odoo-venv.sh and pkgver()
+source = "regex"
+url = "https://nightly.odoo.com/"
+regex = 'href="(\d+\.0)/nightly"'
+
+[perl-latexml]
+source = "cpan"
+cpan = "LaTeXML"
+prefix = "v"
+
+# manual: voice data, no upstream versions
+# [piper-voices-common]
+
+# manual: voice data, no upstream versions
+# [piper-voices-en-gb]
+
+# manual: voice data, no upstream versions
+# [piper-voices-en-us]
+
+# manual: voice data, no upstream versions
+# [piper-voices-hu-hu]
+
+# manual: voice data, no upstream versions
+# [piper-voices-it-it]
+
+# manual: voice data, no upstream versions
+# [piper-voices-minimal]
+
+[pix2tex]
+source = "pypi"
+pypi = "pix2tex"
+
+[plank-player]
+source = "gitlab"
+host = "invent.kde.org"
+gitlab = "plasma-bigscreen/plank-player"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+# manual: packages a branch, no versions
+# [pretzel-web]
+
+[python-aioredis1]
+source = "github"
+github = "aio-libs/aioredis-py"
+include_regex = 'v1\..*'
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[python-fastavro]
+source = "github"
+github = "fastavro/fastavro"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+
+[python-geohash]
+source = "pypi"
+pypi = "Geohash"
+
+[superset-venv]
+source = "pypi"
+pypi = "apache-superset"
+
+[tranalyzer]
+source = "regex"
+url = "https://tranalyzer.com/downloads"
+regex = 'tranalyzer2-([\d.]+)lmw\d+\.tar\.gz'
+
+[xsnow]
+# ratrabbit.nl blocks scripts, Debian tracks upstream
+source = "debianpkg"
+debianpkg = "xsnow"
+strip_release = true
+from_pattern = '^\d+:'
+to_pattern = ''
+
+[xsnow-bin]
+# arm64 .deb may carry a +bN rebuild suffix, may need manual edits
+source = "debianpkg"
+debianpkg = "xsnow"
+strip_release = true
+from_pattern = '^\d+:'
+to_pattern = ''
+
+[zombietrackergps-bin]
+source = "regex"
+url = "https://www.zombietrackergps.net/ztgps/"
+regex = 'Downloads/([\d.]+)/zombietrackergps_[\d.]+_amd64\.deb'
+
+[aider-chat]
+source = "github"
+github = "Aider-AI/aider"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[dbt-core]
+source = "github"
+github = "dbt-labs/dbt-core"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[python-gruut-ipa]
+source = "pypi"
+pypi = "gruut-ipa"
