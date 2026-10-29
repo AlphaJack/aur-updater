@@ -971,3 +971,8 @@ github = "marcomaggi/cre2"
 use_max_tag = true
 exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
 prefix = "v"
+
+# wheels from PyPI, while litellm builds from the GitHub tag
+[litellm-bin]
+source = "pypi"
+pypi = "litellm"
