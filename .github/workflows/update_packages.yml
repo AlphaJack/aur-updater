@@ -102,15 +102,10 @@ jobs:
       NEWVER: ${{ matrix.newver }}
       # set for rebuilds after a Python minor version update
       PYTHON: ${{ matrix.python }}
-      # compiler cache for Rust, and C/C++ built with CMake; passed to the build user by sudo
-      RUSTC_WRAPPER: sccache
-      CMAKE_C_COMPILER_LAUNCHER: sccache
-      CMAKE_CXX_COMPILER_LAUNCHER: sccache
-      SCCACHE_CACHE_SIZE: 2G
     steps:
 
       - name: Install dependencies
-        run: pacman -Syu --noconfirm --needed git jq openssh pacman-contrib sccache sudo
+        run: pacman -Syu --noconfirm --needed git jq openssh pacman-contrib sudo
 
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -123,9 +118,7 @@ jobs:
         if: matrix.build
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: |
-            .sccache
-            .cargo
+          path: .cargo
           key: build-${{ matrix.name }}-${{ github.run_id }}
           restore-keys: build-${{ matrix.name }}-
 
@@ -136,7 +129,7 @@ jobs:
           OWNER_ID: ${{ github.repository_owner_id }}
         run: |
           useradd -m builder
-          mkdir -p .sccache .cargo
+          mkdir -p .cargo
           echo 'builder ALL=(ALL) NOPASSWD: /usr/bin/pacman' > /etc/sudoers.d/builder
           chown -R builder: "$GITHUB_WORKSPACE"
           sudo -u builder git config --global user.name "${OWNER}"
@@ -147,7 +140,7 @@ jobs:
 
       - name: Install package dependencies
         if: matrix.build
-        run: sudo -u builder --preserve-env=RUSTC_WRAPPER,CMAKE_C_COMPILER_LAUNCHER,CMAKE_CXX_COMPILER_LAUNCHER,SCCACHE_CACHE_SIZE SCCACHE_DIR="$GITHUB_WORKSPACE/.sccache" CARGO_HOME="$GITHUB_WORKSPACE/.cargo" ./update_packages.sh deps "$PKG"
+        run: sudo -u builder CARGO_HOME="$GITHUB_WORKSPACE/.cargo" ./update_packages.sh deps "$PKG"
 
       - name: Verify sources
         if: ${{ !matrix.build }}
@@ -155,21 +148,14 @@ jobs:
 
       - name: Build package
         if: matrix.build
-        run: sudo -u builder --preserve-env=RUSTC_WRAPPER,CMAKE_C_COMPILER_LAUNCHER,CMAKE_CXX_COMPILER_LAUNCHER,SCCACHE_CACHE_SIZE SCCACHE_DIR="$GITHUB_WORKSPACE/.sccache" CARGO_HOME="$GITHUB_WORKSPACE/.cargo" ./update_packages.sh build "$PKG"
+        run: sudo -u builder CARGO_HOME="$GITHUB_WORKSPACE/.cargo" ./update_packages.sh build "$PKG"
 
-      # stopping the server writes its cache to disk before it is saved
-      - name: Compiler cache statistics
-        if: always() && matrix.build
-        run: sudo -u builder SCCACHE_DIR="$GITHUB_WORKSPACE/.sccache" sccache --stop-server || true
-
-      # also after failed or cancelled builds, compiled objects are reused by the next attempt
+      # also after failed or cancelled builds, downloaded crates are reused by the next attempt
       - name: Save build cache
-        if: always() && matrix.build && hashFiles('.sccache/**', '.cargo/registry/**') != ''
+        if: always() && matrix.build && hashFiles('.cargo/registry/**') != ''
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: |
-            .sccache
-            .cargo
+          path: .cargo
           key: build-${{ matrix.name }}-${{ github.run_id }}
 
       - name: Commit
