@@ -1,4 +1,8 @@
 # aur-updater
+
+[![update_packages](https://img.shields.io/github/actions/workflow/status/AlphaJack/aur-updater/update_packages.yml?branch=main&label=update_packages)](https://github.com/AlphaJack/aur-updater/actions/workflows/update_packages.yml)
+[![update_catalog](https://img.shields.io/github/actions/workflow/status/AlphaJack/aur-updater/update_catalog.yml?branch=main&label=update_catalog)](https://github.com/AlphaJack/aur-updater/actions/workflows/update_catalog.yml)
+
 Automatically update AUR packages
 
 - `update_packages.yml` checks upstream versions with [nvchecker](https://nvchecker.readthedocs.io/), then bumps, verifies (or builds) and pushes each outdated package to the AUR.
