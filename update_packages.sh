@@ -48,16 +48,10 @@ deps() {
   cd "$root/build/$1"
   mapfile -t deps < <(grep -oP '^\t(make|check)?depends(_x86_64)? = \K.*' .SRCINFO)
   ((${#deps[@]})) || return 0
-  # unmaintained AUR packages are replaced by a fork that provides them
-  local -A forks=([python-albumentations]=python-albumentationsx)
   # AUR packages are built from source, unless a prebuilt -bin variant exists
   local i name query="" bins aur=()
   for i in "${!deps[@]}"; do
     name=${deps[i]%%[<>=]*}
-    if [[ -n ${forks[$name]:-} ]]; then
-      deps[i]=${forks[$name]}
-      name=${deps[i]}
-    fi
     pacman -Sp --print-format '%n' "$name" > /dev/null 2>&1 || query+="&arg[]=$name-bin"
   done
   if [[ -n $query ]]; then
