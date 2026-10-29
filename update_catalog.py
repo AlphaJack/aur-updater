@@ -19,6 +19,7 @@ from aur import get, maintainer
 
 MAINTAINER = sys.argv[1] if len(sys.argv) > 1 else maintainer()
 CONFIG = Path(__file__).resolve().parent / "nvchecker.toml"
+README = CONFIG.with_name("README.md")
 # not version based, nvchecker can't track them
 SKIP = re.compile(r"-git$")
 # max tag picks pre-releases too, unlike GitHub latest release and PyPI
@@ -119,7 +120,7 @@ def title(added: list[str], removed: list[str], limit: int = 5) -> str:
 
 
 def main() -> None:
-    """Append missing sections to CONFIG and remove sections no longer maintained."""
+    """Append missing sections to CONFIG, remove sections no longer maintained, update the README badge."""
     text = CONFIG.read_text()
     present = set(re.findall(r"^#? ?\[([^\]]+)\]", text, re.MULTILINE))
     pkgs = maintained()
@@ -142,6 +143,9 @@ def main() -> None:
         print(block.strip(), end="\n\n")
 
     CONFIG.write_text(text)
+    # badge with the number of tracked (not commented out) sections
+    tracked = len(re.findall(r"^\[(?!__config__\])[^\]]+\]", text, re.MULTILINE))
+    README.write_text(re.sub(r"(badge/nvchecker-)\d+", rf"\g<1>{tracked}", README.read_text()))
     # last line, used as commit message and pull request title
     print(title(added, removed))
 
