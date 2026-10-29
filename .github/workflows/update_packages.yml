@@ -88,7 +88,8 @@ jobs:
       contents: read
     strategy:
       fail-fast: false
-      max-parallel: 10
+      # GitHub Free runs at most 20 jobs at once, the rest are queued
+      max-parallel: 20
       matrix:
         include: ${{ fromJSON(needs.check.outputs.outdated) }}
     env:
