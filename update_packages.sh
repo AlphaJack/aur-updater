@@ -51,7 +51,8 @@ deps() {
     git clone https://aur.archlinux.org/yay-bin.git "$root/build/yay-bin"
     (cd "$root/build/yay-bin" && makepkg --syncdeps --install --noconfirm)
   fi
-  yay -S --needed --asdeps --noconfirm \
+  # dependencies are only installed, so skip their test suites; our packages still run check()
+  yay -S --needed --asdeps --noconfirm --mflags --nocheck \
     --answerclean None --answerdiff None --answeredit None "${deps[@]}"
 }
 
