@@ -145,6 +145,8 @@ prefix = "v"
 [fawltydeps]
 source = "pypi"
 pypi = "fawltydeps"
+# AUR dep python-pip-requirements-parser fails to build
+build = false
 
 [fusiondirectory]
 source = "github"
@@ -586,6 +588,8 @@ exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
 [python-petl]
 source = "pypi"
 pypi = "petl"
+# AUR dep python-bcolz fails to build
+build = false
 
 [python-pgsanity]
 source = "pypi"
@@ -631,6 +635,8 @@ pypi = "shortid"
 [python-smac]
 source = "pypi"
 pypi = "smac"
+# AUR dep python-pyrfr fails to build
+build = false
 
 [python-swagger-ui-py]
 source = "github"
@@ -952,6 +958,8 @@ github = "dbt-labs/dbt-core"
 use_max_tag = true
 exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
 prefix = "v"
+# AUR deps python-betterproto-git, python-hologram and others fail to build
+build = false
 
 [python-gruut-ipa]
 source = "pypi"
