@@ -55,12 +55,12 @@ verify() {
 
 build() {
   cd "$root/build/$1"
-  # keep logs short: makepkg steps on success, full log (collapsed) and its tail on failure
-  if makepkg --force --noconfirm > makepkg.log 2>&1; then
-    grep '^==>' makepkg.log
+  # live output in a collapsed group, repeat the tail outside of it on failure
+  echo "::group::makepkg output"
+  if makepkg --force --noconfirm 2>&1 | tee makepkg.log; then
+    echo "::endgroup::"
+    grep '^==> Finished' makepkg.log
   else
-    echo "::group::Full makepkg log"
-    cat makepkg.log
     echo "::endgroup::"
     tail -n 50 makepkg.log
     return 1
