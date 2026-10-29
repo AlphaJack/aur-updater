@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     container: archlinux:base-devel # zizmor: ignore[unpinned-images] rolling release, rebuilt upstream regularly
     # a stuck build would otherwise run for 6 hours
-    timeout-minutes: 60
+    timeout-minutes: 15
     permissions:
       contents: read
     strategy:
