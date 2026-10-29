@@ -21,6 +21,10 @@ on:
         description: Only update these packages, separated by spaces or commas (empty means all outdated)
         type: string
         default: ""
+      rebuild:
+        description: Also build the listed packages that are up to date, e.g. after a PKGBUILD fix
+        type: boolean
+        default: false
       max_updates:
         description: Max packages to update (empty uses the MAX_UPDATES repository variable, defaulting to limit)
         type: string
@@ -71,6 +75,7 @@ jobs:
           # input for one-off runs, otherwise repository variable, empty means no limit
           MAX_UPDATES: ${{ inputs.max_updates || vars.MAX_UPDATES }}
           PACKAGES: ${{ inputs.packages }}
+          REBUILD: ${{ inputs.rebuild && '1' || '' }}
         run: |
           outdated="$(./check_packages.py)"
           echo "${outdated}" | jq .

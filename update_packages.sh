@@ -21,7 +21,10 @@ prepare() {
   git clone "https://aur.archlinux.org/$pkg.git" "$dir"
   cd "$dir"
 
-  sed -i "s/^pkgver=.*/pkgver=$newver/; s/^pkgrel=.*/pkgrel=1/" PKGBUILD
+  # only a new version resets pkgrel, a rebuild of the same version keeps it
+  if [[ $(grep -oP '^pkgver=\K.*' PKGBUILD) != "$newver" ]]; then
+    sed -i "s/^pkgver=.*/pkgver=$newver/; s/^pkgrel=.*/pkgrel=1/" PKGBUILD
+  fi
   if [[ -f $root/overrides/$pkg.sh ]]; then
     # shellcheck source=/dev/null
     newver=$newver source "$root/overrides/$pkg.sh"
@@ -52,7 +55,16 @@ verify() {
 
 build() {
   cd "$root/build/$1"
-  makepkg --force --noconfirm
+  # keep logs short: makepkg steps on success, full log (collapsed) and its tail on failure
+  if makepkg --force --noconfirm > makepkg.log 2>&1; then
+    grep '^==>' makepkg.log
+  else
+    echo "::group::Full makepkg log"
+    cat makepkg.log
+    echo "::endgroup::"
+    tail -n 50 makepkg.log
+    return 1
+  fi
 }
 
 commit() {

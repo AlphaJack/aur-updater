@@ -10,6 +10,7 @@ Env:
   GITHUB_TOKEN    raises GitHub API rate limit for nvchecker
   MAX_UPDATES     only output the first N outdated packages, the rest wait for the next run
   PACKAGES        only consider these pkgbases, separated by spaces or commas
+  REBUILD         with PACKAGES, also build the listed packages that are up to date
 """
 
 import json
@@ -67,14 +68,26 @@ def outdated() -> list[dict]:
     return [{**p, "build": config[p["name"]].get("build", True)} for p in json.loads(result.stdout)]
 
 
-def only(packages: list[dict], names: str) -> list[dict]:
-    """Return the packages listed in names (all if empty), reporting unknown or up-to-date names."""
+def only(packages: list[dict], names: str, versions: dict[str, str], rebuild: bool) -> list[dict]:
+    """Return the packages listed in names (all if empty).
+
+    With rebuild, listed packages that are up to date are added at their AUR version.
+    Unknown or skipped names are reported.
+    """
     wanted = set(re.split(r"[\s,]+", names.strip())) - {""}
     if not wanted:
         return packages
-    if missing := wanted - {p["name"] for p in packages}:
+    selected = [p for p in packages if p["name"] in wanted]
+    missing = wanted - {p["name"] for p in selected}
+    if rebuild:
+        config = tomllib.loads(CONFIG.read_text())
+        for name in sorted(missing & versions.keys() & config.keys()):
+            selected.append({"name": name, "oldver": versions[name], "newver": versions[name],
+                             "delta": "rebuild", "build": config[name].get("build", True)})
+        missing -= {p["name"] for p in selected}
+    if missing:
         print("PACKAGES not outdated or not in nvchecker.toml:", *sorted(missing), file=sys.stderr)
-    return [p for p in packages if p["name"] in wanted]
+    return selected
 
 
 def limit(packages: list[dict], max_updates: int) -> list[dict]:
@@ -88,8 +101,9 @@ def limit(packages: list[dict], max_updates: int) -> list[dict]:
 
 def main() -> None:
     """Print outdated packages as JSON on stdout."""
-    write_oldver(aur_versions(maintainer()))
-    packages = only(outdated(), os.environ.get("PACKAGES") or "")
+    versions = aur_versions(maintainer())
+    write_oldver(versions)
+    packages = only(outdated(), os.environ.get("PACKAGES") or "", versions, bool(os.environ.get("REBUILD")))
     print(json.dumps(limit(packages, int(os.environ.get("MAX_UPDATES") or 0))))
 
 

@@ -40,6 +40,7 @@ Run `./update_catalog.py` to append sections for newly adopted packages, then re
    gh workflow run update_packages.yml --ref my-branch         # another pushed branch
    gh workflow run update_packages.yml -f max_updates=1        # one package only
    gh workflow run update_packages.yml -f packages=foo-bin     # only this package, if outdated
+   gh workflow run update_packages.yml -f packages=foo-bin -f rebuild=true  # also if up to date
    gh workflow run update_packages.yml -f dry_run=false        # push, even if DRY_RUN=true
    gh run watch
    ```
