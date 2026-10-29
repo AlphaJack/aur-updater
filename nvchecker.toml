@@ -976,3 +976,8 @@ prefix = "v"
 [litellm-bin]
 source = "pypi"
 pypi = "litellm"
+
+# wheels are per Python version, update _py in the PKGBUILD when Arch moves past 3.14
+[python-fastuuid-bin]
+source = "pypi"
+pypi = "fastuuid"

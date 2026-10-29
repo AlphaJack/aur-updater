@@ -43,13 +43,18 @@ deps() {
   cd "$root/build/$1"
   mapfile -t deps < <(grep -oP '^\t(make|check)?depends(_x86_64)? = \K.*' .SRCINFO)
   ((${#deps[@]})) || return 0
-  # show what will be installed, AUR packages are built from source first
-  local dep aur=()
-  for dep in "${deps[@]}"; do
-    pacman -Sp --print-format '%n' "${dep%%[<>=]*}" > /dev/null 2>&1 || aur+=("$dep")
+  # AUR packages are built from source, unless a prebuilt -bin variant exists
+  local i name aur=()
+  for i in "${!deps[@]}"; do
+    name=${deps[i]%%[<>=]*}
+    pacman -Sp --print-format '%n' "$name" > /dev/null 2>&1 && continue
+    if curl -fsS "https://aur.archlinux.org/rpc/v5/info?arg[]=$name-bin" | jq -e '.resultcount > 0' > /dev/null; then
+      deps[i]=$name-bin
+    fi
+    aur+=("${deps[i]}")
   done
   echo "Dependencies: ${deps[*]}"
-  echo "Built from the AUR: ${aur[*]:-none}"
+  echo "From the AUR: ${aur[*]:-none}"
   if ! command -v yay > /dev/null; then
     git clone https://aur.archlinux.org/yay-bin.git "$root/build/yay-bin"
     (cd "$root/build/yay-bin" && makepkg --syncdeps --install --noconfirm)
