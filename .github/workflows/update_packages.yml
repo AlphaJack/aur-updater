@@ -82,7 +82,7 @@ jobs:
           echo "outdated=${outdated}" >> "$GITHUB_OUTPUT"
 
   update:
-    name: ${{ matrix.name }} ${{ matrix.oldver }} -> ${{ matrix.newver }}
+    name: ${{ matrix.delta == 'rebuild' && format('{0} {1} (rebuild)', matrix.name, matrix.newver) || format('{0} {1} -> {2}', matrix.name, matrix.oldver, matrix.newver) }}
     needs: check
     if: needs.check.outputs.outdated != '[]'
     runs-on: ubuntu-latest
