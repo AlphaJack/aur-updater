@@ -958,3 +958,16 @@ prefix = "v"
 [python-gruut-ipa]
 source = "pypi"
 pypi = "gruut-ipa"
+
+[clickhouse-cpp]
+source = "github"
+github = "ClickHouse/clickhouse-cpp"
+use_latest_release = true
+prefix = "v"
+
+[cre2]
+source = "github"
+github = "marcomaggi/cre2"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
