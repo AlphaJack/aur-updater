@@ -44,15 +44,22 @@ deps() {
   mapfile -t deps < <(grep -oP '^\t(make|check)?depends(_x86_64)? = \K.*' .SRCINFO)
   ((${#deps[@]})) || return 0
   # AUR packages are built from source, unless a prebuilt -bin variant exists
-  local i name aur=()
+  local i name query="" bins aur=()
   for i in "${!deps[@]}"; do
     name=${deps[i]%%[<>=]*}
-    pacman -Sp --print-format '%n' "$name" > /dev/null 2>&1 && continue
-    if curl -fsS "https://aur.archlinux.org/rpc/v5/info?arg[]=$name-bin" | jq -e '.resultcount > 0' > /dev/null; then
-      deps[i]=$name-bin
-    fi
-    aur+=("${deps[i]}")
+    pacman -Sp --print-format '%n' "$name" > /dev/null 2>&1 || query+="&arg[]=$name-bin"
   done
+  if [[ -n $query ]]; then
+    if ! bins=$(curl -fsS --globoff --retry 3 "https://aur.archlinux.org/rpc/v5/info?v=5${query}" | jq -r '.results[].Name'); then
+      echo "::warning::Could not look up -bin variants on the AUR, building AUR dependencies from source"
+    fi
+    for i in "${!deps[@]}"; do
+      name=${deps[i]%%[<>=]*}
+      [[ $query == *"&arg[]=$name-bin"* ]] || continue
+      grep -qx "$name-bin" <<< "$bins" && deps[i]=$name-bin
+      aur+=("${deps[i]}")
+    done
+  fi
   echo "Dependencies: ${deps[*]}"
   echo "From the AUR: ${aur[*]:-none}"
   if ! command -v yay > /dev/null; then
