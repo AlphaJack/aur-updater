@@ -1,8 +1,8 @@
 # aur-updater
 
+[![packages](https://img.shields.io/badge/packages-165-green)](nvchecker.toml)
 [![update_packages](https://img.shields.io/github/actions/workflow/status/AlphaJack/aur-updater/update_packages.yml?branch=main&label=update_packages)](https://github.com/AlphaJack/aur-updater/actions/workflows/update_packages.yml)
 [![update_catalog](https://img.shields.io/github/actions/workflow/status/AlphaJack/aur-updater/update_catalog.yml?branch=main&label=update_catalog)](https://github.com/AlphaJack/aur-updater/actions/workflows/update_catalog.yml)
-[![nvchecker](https://img.shields.io/badge/nvchecker-165-green)](nvchecker.toml)
 
 Automatically update AUR packages
 

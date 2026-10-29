@@ -145,7 +145,7 @@ def main() -> None:
     CONFIG.write_text(text)
     # badge with the number of tracked (not commented out) sections
     tracked = len(re.findall(r"^\[(?!__config__\])[^\]]+\]", text, re.MULTILINE))
-    README.write_text(re.sub(r"(badge/nvchecker-)\d+", rf"\g<1>{tracked}", README.read_text()))
+    README.write_text(re.sub(r"(badge/packages-)\d+", rf"\g<1>{tracked}", README.read_text()))
     # last line, used as commit message and pull request title
     print(title(added, removed))
 
