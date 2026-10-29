@@ -702,6 +702,7 @@ prefix = "v"
 [shot-scraper]
 source = "pypi"
 pypi = "shot_scraper"
+build = true
 
 [smarty3]
 source = "github"
