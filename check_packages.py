@@ -9,6 +9,7 @@ Env:
   AUR_MAINTAINER  whose (co-)maintained packages to compare against (default: GitHub repository owner)
   GITHUB_TOKEN    raises GitHub API rate limit for nvchecker
   MAX_UPDATES     only output the first N outdated packages, the rest wait for the next run
+  PACKAGES        only consider these pkgbases, separated by spaces or commas
 """
 
 import json
@@ -66,6 +67,16 @@ def outdated() -> list[dict]:
     return [{**p, "build": config[p["name"]].get("build", False)} for p in json.loads(result.stdout)]
 
 
+def only(packages: list[dict], names: str) -> list[dict]:
+    """Return the packages listed in names (all if empty), reporting unknown or up-to-date names."""
+    wanted = set(re.split(r"[\s,]+", names.strip())) - {""}
+    if not wanted:
+        return packages
+    if missing := wanted - {p["name"] for p in packages}:
+        print("PACKAGES not outdated or not in nvchecker.toml:", *sorted(missing), file=sys.stderr)
+    return [p for p in packages if p["name"] in wanted]
+
+
 def limit(packages: list[dict], max_updates: int) -> list[dict]:
     """Return the first max_updates packages (all if 0), reporting the postponed ones."""
     if max_updates and len(packages) > max_updates:
@@ -78,7 +89,8 @@ def limit(packages: list[dict], max_updates: int) -> list[dict]:
 def main() -> None:
     """Print outdated packages as JSON on stdout."""
     write_oldver(aur_versions(maintainer()))
-    print(json.dumps(limit(outdated(), int(os.environ.get("MAX_UPDATES") or 0))))
+    packages = only(outdated(), os.environ.get("PACKAGES") or "")
+    print(json.dumps(limit(packages, int(os.environ.get("MAX_UPDATES") or 0))))
 
 
 if __name__ == "__main__":

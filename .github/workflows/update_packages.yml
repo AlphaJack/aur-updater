@@ -10,9 +10,17 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: Dry run, do not push to the AUR
-        type: boolean
-        default: true
+        description: Dry run, do not push to the AUR (default uses the DRY_RUN repository variable, or false)
+        type: choice
+        options:
+          - default
+          - "true"
+          - "false"
+        default: default
+      packages:
+        description: Only update these packages, separated by spaces or commas (empty means all outdated)
+        type: string
+        default: ""
       max_updates:
         description: Max packages to update (empty uses the MAX_UPDATES repository variable, defaulting to limit)
         type: string
@@ -23,6 +31,10 @@ concurrency:
   cancel-in-progress: false
 
 permissions: {}
+
+env:
+  # input for one-off runs, otherwise repository variable, unset means push
+  DRY_RUN: ${{ inputs.dry_run == 'true' || (inputs.dry_run != 'false' && vars.DRY_RUN == 'true') }}
 
 jobs:
 
@@ -35,6 +47,16 @@ jobs:
     outputs:
       outdated: ${{ steps.check.outputs.outdated }}
     steps:
+
+      - name: Require AUR SSH key unless dry run
+        if: env.DRY_RUN == 'false'
+        env:
+          AUR_SSH_PRIVATE_KEY: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+        run: |
+          if [[ -z "${AUR_SSH_PRIVATE_KEY}" ]]; then
+            echo "::error::Secret AUR_SSH_PRIVATE_KEY is not set, set it or run with dry_run=true"
+            exit 1
+          fi
 
       # python-packaging is needed by the pypi source
       - name: Install dependencies
@@ -51,6 +73,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           # input for one-off runs, otherwise repository variable, empty means no limit
           MAX_UPDATES: ${{ inputs.max_updates || vars.MAX_UPDATES }}
+          PACKAGES: ${{ inputs.packages }}
         run: |
           outdated="$(./check_packages.py)"
           echo "${outdated}" | jq .
@@ -114,7 +137,7 @@ jobs:
 
       # the SSH key only exists after upstream code has finished running
       - name: Push to AUR
-        if: github.event_name == 'schedule' || !inputs.dry_run
+        if: env.DRY_RUN == 'false'
         env:
           AUR_SSH_PRIVATE_KEY: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
         run: |
