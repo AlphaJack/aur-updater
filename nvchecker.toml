@@ -787,8 +787,12 @@ prefix = "v"
 source = "pypi"
 pypi = "aider-chat"
 
-# manual: pkgver is the major version, source is a daily zip
-# [ancestris]
+[ancestris]
+# daily zip, pkgver is the major version of the unstable download
+source = "regex"
+url = "https://www.ancestris.org/"
+regex = 'id="l-dwld-lin-u">Ancestris (\d+)<'
+user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0"
 
 # manual: archived fork, no new releases
 # [citra-appimage]
@@ -981,3 +985,42 @@ pypi = "litellm"
 [python-fastuuid-bin]
 source = "pypi"
 pypi = "fastuuid"
+
+[fava-dashboards]
+source = "pypi"
+pypi = "fava-dashboards"
+
+[fava-portfolio-returns]
+source = "pypi"
+pypi = "fava-portfolio-returns"
+
+[libcoraza]
+source = "github"
+github = "corazawaf/libcoraza"
+use_latest_release = true
+prefix = "v"
+
+[nginx-mainline-mod-coraza]
+source = "github"
+github = "corazawaf/coraza-nginx"
+use_latest_release = true
+prefix = "v"
+
+[nginx-mod-coraza]
+source = "github"
+github = "corazawaf/coraza-nginx"
+use_latest_release = true
+prefix = "v"
+
+[python-beancount-import]
+# PyPI only has a wheel, the PKGBUILD uses the GitHub tag of the same version
+source = "pypi"
+pypi = "beancount-import"
+
+[python-django-recaptcha]
+source = "pypi"
+pypi = "django-recaptcha"
+
+[python-opentimestamps]
+source = "pypi"
+pypi = "opentimestamps"
