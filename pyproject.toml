@@ -1,0 +1,16 @@
+[project]
+name = "aur-updater"
+version = "0.1.0"
+description = "Update AUR packages when their upstream releases a new version"
+readme = "README.md"
+requires-python = ">=3.11"
+# scripts use the standard library only; nvchecker is installed by pacman in the workflows
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ruff",
+]
+
+[tool.uv]
+package = false
