@@ -18,10 +18,16 @@ def maintainer() -> str:
     AUR_MAINTAINER if set, otherwise the GitHub owner of this repository:
     GITHUB_REPOSITORY_OWNER in Actions, the `origin` remote locally.
     """
-    if name := os.environ.get("AUR_MAINTAINER") or os.environ.get("GITHUB_REPOSITORY_OWNER"):
+    if name := os.environ.get("AUR_MAINTAINER") or os.environ.get(
+        "GITHUB_REPOSITORY_OWNER"
+    ):
         return name
-    url = subprocess.run(["git", "remote", "get-url", "origin"],
-                         check=True, capture_output=True, text=True).stdout.strip()
+    url = subprocess.run(
+        ["git", "remote", "get-url", "origin"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
     if m := re.search(r"github\.com[:/]([^/]+)/", url):
         return m[1]
     raise SystemExit(f"Can't infer the AUR maintainer from {url}, set AUR_MAINTAINER")
