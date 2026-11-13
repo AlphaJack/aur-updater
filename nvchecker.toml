@@ -1024,3 +1024,21 @@ pypi = "django-recaptcha"
 [python-opentimestamps]
 source = "pypi"
 pypi = "opentimestamps"
+
+# TODO pkgver=902 sources: git://git.citadel.org/appl/gitroot/citadel.git#tag=Release_902 citadel.service webcit.service webcits.service 001-libical2_support_citadel.patch 001-libical2_support_webcit.patch
+# [citadel]
+
+[mkinitcpio-mercurio]
+source = "gitlab"
+host = "gitlab.archlinux.org"
+gitlab = "alphajack/mkinitcpio-mercurio"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
+
+[python-pkb-client]
+source = "github"
+github = "infinityofspace/pkb_client"
+use_max_tag = true
+exclude_regex = '.*(dev|rc|alpha|beta|pre).*'
+prefix = "v"
